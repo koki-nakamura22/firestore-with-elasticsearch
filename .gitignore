@@ -1,3 +1,4 @@
 node_modules
 
 firestore-with-elasticsearch.json
+elasticsearch-setting.json
