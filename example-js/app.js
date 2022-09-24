@@ -1,8 +1,8 @@
 const firebase = require("./lib/firebase/firebase");
 const Users = require("./lib/firebase/users");
 
-// const elasticsearch = require("./lib/elasticsearch/js/v6/elasticsearch");
-const elasticsearch = require("./lib/elasticsearch/js/v7/elasticsearch");
+// const elasticsearch = require("./lib/elasticsearch/v6/elasticsearch");
+const elasticsearch = require("./lib/elasticsearch/v7/elasticsearch");
 const elasticsearchIndexName = "user";
 
 const recreateIndex = async () => {
@@ -44,10 +44,10 @@ const main = async () => {
   );
   await firestore_users.deleteAllData();
 
-  const dataFilePath = "./data/dummyUserData.json";
+  const dataFilePath = "./../data/dummyUserData.json";
   const dataForInsert = require(dataFilePath);
-  await firestore_users.bulkInsertData(dataForInsert);
-  // await firestore_users.insertData(dataForInsert[0]);
+  // await firestore_users.bulkInsertData(dataForInsert);
+  await firestore_users.insertData(dataForInsert[0]);
 
   const searchedESData = await elasticsearch.Document.searchAll(
     elasticsearchIndexName

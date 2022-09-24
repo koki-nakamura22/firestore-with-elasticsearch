@@ -1,16 +1,13 @@
-// Using ver 6.x because when using ver 7.x or upper, an error happens.
-// Probably, the cause is unmatching versions between the server and the client.
-
 // Document
 // - GitHub
 // https://github.com/elastic/elasticsearch-js
 //
 // API Referencce
-// https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/6.x/api-reference.html
+// https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/7.17/api-reference.html
 
 const { Client } = require("@elastic/elasticsearch");
-const elasticsearchSetting = require("../../elasticsearch-setting.json");
-const client = new Client({ node: elasticsearchSetting.v6url });
+const elasticsearchSetting = require("../../../../setting/elasticsearch-setting.json");
+const client = new Client({ node: elasticsearchSetting.v7url });
 
 module.exports.Index = class {
   static async exists(indexName) {
@@ -43,7 +40,6 @@ module.exports.Document = class {
   static async add(indexName, id, body) {
     const response = await client.index({
       index: indexName,
-      type: "_doc",
       id: id,
       body: body,
       refresh: true,
@@ -66,7 +62,6 @@ module.exports.Document = class {
   static async update(indexName, id, body) {
     const response = await client.update({
       index: indexName,
-      type: "_doc",
       id: id,
       body: body,
       refresh: true,
@@ -77,7 +72,6 @@ module.exports.Document = class {
   static async delete(indexName, id) {
     const response = await client.delete({
       index: indexName,
-      type: "_doc",
       id: id,
       refresh: true,
     });
@@ -87,14 +81,12 @@ module.exports.Document = class {
   static async searchAll(indexName) {
     return await client.search({
       index: indexName,
-      type: "_doc",
     });
   }
 
   static async searchPartialMatch(indexName, condition) {
     return await client.search({
       index: indexName,
-      type: "_doc",
       body: {
         query: {
           match: condition,
