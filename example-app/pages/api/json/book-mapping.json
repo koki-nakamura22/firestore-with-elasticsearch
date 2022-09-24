@@ -1,0 +1,12 @@
+{
+  "mappings": {
+    "properties": {
+      "title": { "type": "text" },
+      "author": { "type": "text" },
+      "publisherName": { "type": "text" },
+      "isbn": { "type": "text" },
+      "itemCaption": { "type": "text" },
+      "itemPrice": { "type": "text" }
+    }
+  }
+}
