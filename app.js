@@ -30,9 +30,11 @@ const changeCallbackFuncRemoved = async (doc) => {
 };
 
 const main = async () => {
-  // await recreateIndex();
+  await recreateIndex();
 
   firebase.initializeApp();
+
+  return 0;
 
   const firestore_users = new Users();
   firestore_users.setOnSnapshotToCollection(
