@@ -1,4 +1,5 @@
-const BaseCollection = require("./basecollection");
+import { FirestoreUserType } from "../../utils/types";
+import { BaseCollection } from "./basecollection";
 
 module.exports = class Users extends BaseCollection {
   constructor() {
@@ -6,13 +7,13 @@ module.exports = class Users extends BaseCollection {
     super(collectionName);
   }
 
-  async bulkInsertData(dataForInsert = null) {
+  async bulkInsertData(dataForInsert: FirestoreUserType[] | null) {
     if (dataForInsert === null) {
       throw new Error("Must pass dataForInsert.");
     }
 
     const batch = this.db.batch();
-    dataForInsert.forEach(async (eachData) => {
+    dataForInsert.forEach(async (eachData: FirestoreUserType) => {
       const docRef = this.db
         .collection(this.collectionName)
         .doc(`${eachData["first_name"]}${eachData["last_name"]}`);
@@ -25,7 +26,7 @@ module.exports = class Users extends BaseCollection {
     await batch.commit();
   }
 
-  async insertData(dataForInsert) {
+  async insertData(dataForInsert: FirestoreUserType | null) {
     if (dataForInsert === null) {
       throw new Error("Must pass dataForInsert.");
     }

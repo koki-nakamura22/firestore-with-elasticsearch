@@ -1,10 +1,11 @@
-const firebase = require("firebase-admin/app");
+const firebase = require("firebase-admin/app"); // TODO
+import { FirestoreErrorType } from "../../utils/types";
 
-module.exports.enablePersistence = () => {
+const enablePersistence = () => {
   firebase
     .firestore()
     .enablePersistence()
-    .catch((err) => {
+    .catch((err: FirestoreErrorType) => {
       if (err.code == "failed-precondition") {
         console.error(
           "Multiple tabs open, persistence can only be enabled in one tab at a a time."
@@ -16,3 +17,5 @@ module.exports.enablePersistence = () => {
       }
     });
 };
+
+export default enablePersistence;

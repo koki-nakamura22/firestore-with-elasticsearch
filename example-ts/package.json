@@ -18,6 +18,7 @@
   "homepage": "https://github.com/koki-nakamura22/firestore-with-elasticsearch#readme",
   "dependencies": {
     "@elastic/elasticsearch": "^7.10.0",
+    "@firebase/firestore": "^3.5.0",
     "@types/elasticsearch": "^5.0.40",
     "firebase": "^9.10.0",
     "firebase-admin": "^11.0.1"
