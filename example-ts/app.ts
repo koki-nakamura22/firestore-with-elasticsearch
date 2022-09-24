@@ -1,5 +1,13 @@
-import * as firebase from "../example-js/lib/firebase/firebase";
-import Users from "../example-js/lib/firebase/users";
+import {
+  DocumentData,
+  FirestoreDataConverter,
+  QueryDocumentSnapshot,
+  SnapshotOptions,
+  serverTimestamp,
+} from "firebase/firestore";
+import * as firebase from "./lib/firebase/firebase";
+import Users from "./lib/firebase/users";
+import { HitDataType } from "./utils/types";
 
 // const elasticsearch = require("./lib/elasticsearch/js/v6/elasticsearch");
 const elasticsearch = require("./lib/elasticsearch/js/v7/elasticsearch");
@@ -14,11 +22,11 @@ const recreateIndex = async () => {
   await elasticsearch.Index.create(elasticsearchIndexName, userMapping);
 };
 
-const changeCallbackFuncAdded = async (doc) => {
+const changeCallbackFuncAdded = async (doc: DocumentData) => {
   await elasticsearch.Document.add(elasticsearchIndexName, doc.id, doc.data());
   console.info("changeCallbackFuncAdded: " + doc.id);
 };
-const changeCallbackFuncModified = async (doc) => {
+const changeCallbackFuncModified = async (doc: DocumentData) => {
   await elasticsearch.Document.update(
     elasticsearchIndexName,
     doc.id,
@@ -26,7 +34,7 @@ const changeCallbackFuncModified = async (doc) => {
   );
   console.info("changeCallbackFuncModified: " + doc.id);
 };
-const changeCallbackFuncRemoved = async (doc) => {
+const changeCallbackFuncRemoved = async (doc: DocumentData) => {
   await elasticsearch.Document.delete(elasticsearchIndexName, doc.id);
   console.info("changeCallbackFuncRemoved: " + doc.id);
 };
@@ -34,7 +42,7 @@ const changeCallbackFuncRemoved = async (doc) => {
 const main = async () => {
   await recreateIndex();
 
-  firebase.initializeApp();
+  firebase.initApp();
 
   const firestore_users = new Users();
   firestore_users.setOnSnapshotToCollection(
@@ -53,7 +61,7 @@ const main = async () => {
     elasticsearchIndexName
   );
   console.info("Searched Elasticsearch data");
-  searchedESData.body.hits.hits.forEach((element) => {
+  searchedESData.body.hits.hits.forEach((element: HitDataType) => {
     console.info(element._source);
   });
 

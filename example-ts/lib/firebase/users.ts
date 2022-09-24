@@ -1,7 +1,7 @@
 import { FirestoreUserType } from "../../utils/types";
 import { BaseCollection } from "./basecollection";
 
-module.exports = class Users extends BaseCollection {
+export default class Users extends BaseCollection {
   constructor() {
     const collectionName = "users";
     super(collectionName);
@@ -43,4 +43,4 @@ module.exports = class Users extends BaseCollection {
       email: email,
     });
   }
-};
+}
