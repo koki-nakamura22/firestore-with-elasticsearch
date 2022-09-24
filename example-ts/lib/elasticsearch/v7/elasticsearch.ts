@@ -10,7 +10,7 @@ import { Client, ApiResponse, RequestParams } from "@elastic/elasticsearch";
 import elasticsearchSetting from "../../../../setting/elasticsearch-setting.json";
 const client = new Client({ node: elasticsearchSetting.v7url });
 
-module.exports.Index = class {
+export class Index {
   static async exists(indexName: string) {
     return await client.indices.exists({
       index: indexName,
@@ -35,9 +35,9 @@ module.exports.Index = class {
       index: indexName,
     });
   }
-};
+}
 
-module.exports.Document = class {
+export class Document {
   static async add(indexName: string, id: string, body: object) {
     const response = await client.index({
       index: indexName,
@@ -95,4 +95,4 @@ module.exports.Document = class {
       },
     });
   }
-};
+}

@@ -5,12 +5,11 @@ import {
   SnapshotOptions,
   serverTimestamp,
 } from "firebase/firestore";
-import * as firebase from "./lib/firebase/firebase";
 import Users from "./lib/firebase/users";
 import { HitDataType } from "./utils/types";
+import * as firebase from "./lib/firebase/firebase";
 
-// const elasticsearch = require("./lib/elasticsearch/js/v6/elasticsearch");
-const elasticsearch = require("./lib/elasticsearch/js/v7/elasticsearch");
+import * as elasticsearch from "./lib/elasticsearch/v7/elasticsearch";
 const elasticsearchIndexName = "user";
 
 const recreateIndex = async () => {
@@ -43,6 +42,8 @@ const main = async () => {
   await recreateIndex();
 
   firebase.initApp();
+
+  return 0;
 
   const firestore_users = new Users();
   firestore_users.setOnSnapshotToCollection(
