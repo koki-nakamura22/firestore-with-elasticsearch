@@ -34,8 +34,6 @@ const main = async () => {
 
   firebase.initializeApp();
 
-  return 0;
-
   const firestore_users = new Users();
   firestore_users.setOnSnapshotToCollection(
     changeCallbackFuncAdded,
