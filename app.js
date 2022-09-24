@@ -1,15 +1,17 @@
 const firebase = require("./lib/firebase/firebase");
 const Users = require("./lib/firebase/users");
 
-const elasticsearch = require("./lib/elasticsearch/v6/elasticsearch");
+// const elasticsearch = require("./lib/elasticsearch/js/v6/elasticsearch");
+const elasticsearch = require("./lib/elasticsearch/js/v7/elasticsearch");
 const elasticsearchIndexName = "user";
 
 const recreateIndex = async () => {
-  if (elasticsearch.Index.exists(elasticsearchIndexName)) {
+  const exists = await elasticsearch.Index.exists(elasticsearchIndexName);
+  if (exists.body) {
     await elasticsearch.Index.delete(elasticsearchIndexName);
-    const userMapping = require("./lib/elasticsearch/user-mapping.json");
-    await elasticsearch.Index.create(elasticsearchIndexName, userMapping);
   }
+  const userMapping = require("./lib/elasticsearch/user-mapping.json");
+  await elasticsearch.Index.create(elasticsearchIndexName, userMapping);
 };
 
 const changeCallbackFuncAdded = async (doc) => {
@@ -44,9 +46,18 @@ const main = async () => {
 
   const dataFilePath = "./data/dummyUserData.json";
   const dataForInsert = require(dataFilePath);
-  // await firestore_users.bulkInsertData(dataForInsert);
-  await firestore_users.insertData(dataForInsert[0]);
+  await firestore_users.bulkInsertData(dataForInsert);
+  // await firestore_users.insertData(dataForInsert[0]);
 
+  const searchedESData = await elasticsearch.Document.searchAll(
+    elasticsearchIndexName
+  );
+  console.info("Searched Elasticsearch data");
+  searchedESData.body.hits.hits.forEach((element) => {
+    console.info(element._source);
+  });
+
+  // console.info("All Firestore data");
   // await firestore_users.showAllData();
   console.info("done");
   process.exit(0);

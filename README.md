@@ -13,5 +13,5 @@ npm install @elastic/elasticsearch@6
 
 ```sh
 npm rm @elastic/elasticsearch
-npm install @elastic/elasticsearch@7
+npm install @elastic/elasticsearch@7.10.0
 ```
