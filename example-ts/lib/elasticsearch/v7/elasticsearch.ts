@@ -1,49 +1,46 @@
-// Using ver 6.x because when using ver 7.x or upper, an error happens.
-// Probably, the cause is unmatching versions between the server and the client.
-
 // Document
 // - GitHub
 // https://github.com/elastic/elasticsearch-js
 //
 // API Referencce
-//https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/6.x/api-reference.html
+// https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/7.17/api-reference.html
 
-const { Client } = require("@elastic/elasticsearch");
-const elasticsearchSetting = require("../elasticsearch-setting.json");
-const client = new Client({ node: elasticsearchSetting.url });
+import { MappingType } from "../../../utils/types";
+import { Client, ApiResponse, RequestParams } from "@elastic/elasticsearch";
+import elasticsearchSetting from "../../../../setting/elasticsearch-setting.json";
+const client = new Client({ node: elasticsearchSetting.v7url });
 
-module.exports.Index = class {
-  static async exists(indexName) {
+export class Index {
+  static async exists(indexName: string) {
     return await client.indices.exists({
       index: indexName,
     });
   }
 
-  static async create(indexName, indexDefinition) {
+  static async create(indexName: string, indexDefinition: MappingType) {
     return await client.indices.create({
       index: indexName,
       body: indexDefinition,
     });
   }
 
-  static async delete(indexName) {
+  static async delete(indexName: string) {
     return await client.indices.delete({
       index: indexName,
     });
   }
 
-  static async refresh(indexName) {
+  static async refresh(indexName: string) {
     return await client.indices.refresh({
       index: indexName,
     });
   }
-};
+}
 
-module.exports.Document = class {
-  static async add(indexName, id, body) {
+export class Document {
+  static async add(indexName: string, id: string, body: object) {
     const response = await client.index({
       index: indexName,
-      type: "_doc",
       id: id,
       body: body,
       refresh: true,
@@ -51,8 +48,8 @@ module.exports.Document = class {
     return response;
   }
 
-  static async bulkAdd(indexName, docList) {
-    const body = docList.flatMap((doc) => [
+  static async bulkAdd(indexName: string, docList: object[]) {
+    const body = docList.flatMap((doc: object) => [
       { index: { _index: indexName } },
       doc,
     ]);
@@ -63,10 +60,9 @@ module.exports.Document = class {
     return response;
   }
 
-  static async update(indexName, id, body) {
+  static async update(indexName: string, id: string, body: object) {
     const response = await client.update({
       index: indexName,
-      type: "_doc",
       id: id,
       body: body,
       refresh: true,
@@ -74,20 +70,24 @@ module.exports.Document = class {
     return response;
   }
 
-  static async delete(indexName, id) {
+  static async delete(indexName: string, id: string) {
     const response = await client.delete({
       index: indexName,
-      type: "_doc",
       id: id,
       refresh: true,
     });
     return response;
   }
 
-  static async searchPartialMatch(indexName, condition) {
+  static async searchAll(indexName: string) {
     return await client.search({
       index: indexName,
-      type: "_doc",
+    });
+  }
+
+  static async searchPartialMatch(indexName: string, condition: object) {
+    return await client.search({
+      index: indexName,
       body: {
         query: {
           match: condition,
@@ -95,4 +95,4 @@ module.exports.Document = class {
       },
     });
   }
-};
+}
