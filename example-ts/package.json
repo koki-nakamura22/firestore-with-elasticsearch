@@ -1,0 +1,30 @@
+{
+  "name": "firestore-with-elasticsearch",
+  "version": "0.0.1",
+  "description": "Firestore with elasticsearch examples",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koki-nakamura22/firestore-with-elasticsearch.git"
+  },
+  "author": "Koki NAKAMURA",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/koki-nakamura22/firestore-with-elasticsearch/issues"
+  },
+  "homepage": "https://github.com/koki-nakamura22/firestore-with-elasticsearch#readme",
+  "dependencies": {
+    "@elastic/elasticsearch": "^7.10.0",
+    "@firebase/firestore": "^3.5.0",
+    "@types/elasticsearch": "^5.0.40",
+    "firebase": "^9.10.0",
+    "firebase-admin": "^11.0.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "tslint": "^6.1.3"
+  }
+}
