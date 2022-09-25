@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 import Users from "./lib/firebase/users";
 import { HitDataType } from "./utils/types";
-import * as firebase from "./lib/firebase/firebase";
+import * as firebase from "./lib/firebase/firebasewrapper";
 
 import * as elasticsearch from "./lib/elasticsearch/v7/elasticsearch";
 const elasticsearchIndexName = "user";
@@ -45,30 +45,30 @@ const main = async () => {
 
   return 0;
 
-  const firestore_users = new Users();
-  firestore_users.setOnSnapshotToCollection(
-    changeCallbackFuncAdded,
-    changeCallbackFuncModified,
-    changeCallbackFuncRemoved
-  );
-  await firestore_users.deleteAllData();
+  // const firestore_users = new Users();
+  // firestore_users.setOnSnapshotToCollection(
+  //   changeCallbackFuncAdded,
+  //   changeCallbackFuncModified,
+  //   changeCallbackFuncRemoved
+  // );
+  // await firestore_users.deleteAllData();
 
-  const dataFilePath = "./data/dummyUserData.json";
-  const dataForInsert = require(dataFilePath);
-  // await firestore_users.bulkInsertData(dataForInsert);
-  await firestore_users.insertData(dataForInsert[0]);
+  // const dataFilePath = "./data/dummyUserData.json";
+  // const dataForInsert = require(dataFilePath);
+  // // await firestore_users.bulkInsertData(dataForInsert);
+  // await firestore_users.insertData(dataForInsert[0]);
 
-  const searchedESData = await elasticsearch.Document.searchAll(
-    elasticsearchIndexName
-  );
-  console.info("Searched Elasticsearch data");
-  searchedESData.body.hits.hits.forEach((element: HitDataType) => {
-    console.info(element._source);
-  });
+  // const searchedESData = await elasticsearch.Document.searchAll(
+  //   elasticsearchIndexName
+  // );
+  // console.info("Searched Elasticsearch data");
+  // searchedESData.body.hits.hits.forEach((element: HitDataType) => {
+  //   console.info(element._source);
+  // });
 
-  // console.info("All Firestore data");
-  // await firestore_users.showAllData();
-  console.info("done");
-  process.exit(0);
+  // // console.info("All Firestore data");
+  // // await firestore_users.showAllData();
+  // console.info("done");
+  // process.exit(0);
 };
 main();
